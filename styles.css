@@ -1,0 +1,303 @@
+/*body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f9f9f9;
+  }
+  
+  header {
+    background: linear-gradient(to right, #ff512f, #dd2476);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  #restaurantList {
+    padding: 20px;
+  }
+  
+  #chatbot {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  #chatBox {
+    height: 150px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+    background: #f0f0f0;
+    padding: 5px;
+  }
+  
+  footer {
+    text-align: center;
+    background: #111;
+    color: white;
+    padding: 10px;
+  }
+  
+  form {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    margin: 50px auto;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  input, button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 90%;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  */
+
+  /* === GLOBAL === */
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffc9dd; /* Pink background */
+    color: #4a2b2b;
+  }
+  
+  a {
+    color: #ff2e63;
+    text-decoration: none;
+  }
+  
+  h1, h2, h3 {
+    font-weight: 900;
+    color: #ff2e63;
+    padding: 10px;
+  }
+  
+  /* === HEADER / NAV === */
+  header {
+    background-color: #fff475; /* Yellow header */
+    border-bottom: 10px solid #ffb6c1;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  header h1 {
+    font-size: 2.5rem;
+    color: #ff2e63;
+  }
+  
+  nav {
+    margin-top: 10px;
+  }
+  
+  nav a {
+    margin: 0 15px;
+    font-weight: 600;
+    color: #ff2e63;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* === BUTTON === */
+  button, .btn {
+    background-color: #ff2e63;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover, .btn:hover {
+    background-color: #e02e52;
+  }
+  
+  /* === MAIN CONTAINER === */
+  .container {
+    background-color: #fff475; /* Yellow body */
+    margin: 40px auto;
+    max-width: 800px;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  
+  /* === INPUT FIELDS === */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid #ff2e63;
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #e02e52;
+  }
+  
+  /* === COMPACT CHATBOT WIDGET === */
+  #chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    max-height: 400px;
+    background-color: #fff8dc;
+    border: 3px solid #ff2e63;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  #chatbot-header {
+    background-color: #ff2e63;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+  }
+  
+  #chatBox {
+    flex: 1;
+    padding: 10px;
+    background-color: #fffce6;
+    overflow-y: auto;
+    font-size: 0.9rem;
+  }
+  
+  #chatInput {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+  }
+  
+  #chatInput input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+  }
+  
+  #chatInput button {
+    margin-left: 8px;
+    padding: 8px 12px;
+    background-color: #ff2e63;
+    border: none;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+  
+  
+  /* === FOOTER === */
+  footer {
+    background-color: #fff475;
+    text-align: center;
+    padding: 15px;
+    font-weight: 600;
+    color: #ff2e63;
+    border-top: 8px solid #ffb6c1;
+  }
+  
+  /* === CUTE FOOD ICONS STYLE === */
+  .food-icon {
+    width: 80px;
+    height: auto;
+    margin: 10px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+  
+  /* === WAVY BOTTOM EFFECT === */
+  header::after {
+    content: "";
+    display: block;
+    background: url('wave.svg') repeat-x;
+    height: 40px;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    background-size: contain;
+  }
+  
+  /* SIGNUP / LOGIN FORM INPUTS */
+  .auth-form {
+    max-width: 350px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border: 2px solid #ff2e63;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .auth-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff2e63;
+  }
+  
+  .auth-form input[type="text"],
+  .auth-form input[type="email"],
+  .auth-form input[type="password"] {
+    width: 80%; /* Decreased width */
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+  
+  .auth-form button {
+    width: 50%;
+    padding: 10px;
+    margin: 20px auto 0;
+    display: block;
+    background-color: #ff2e63;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .auth-form button:hover {
+    background-color: #e40050;
+  }
+  
+  
+  /* Optional: Add Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
+  
