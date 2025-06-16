@@ -9,7 +9,7 @@ require '../auth.php';
 //    header("Location: unauthorized.php");
 //    exit();
 //}
-
+//JANGAN IKUT YANG NI
 if (!isset($_SESSION["logged_in"]) || $_SESSION["role"] !== "admin") {
     header("Location: admin_login.html");
     exit();
