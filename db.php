@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$db   = 'hunger_finder';
-$user = 'root';     // Change if needed
-$pass = '';         // Change if password is set
+$host = 'sql113.infinityfree.com';
+$db   = 'if0_39207330_hunger_finder';
+$user = 'if0_39207330';     // Change if needed
+$pass = 'capy2025';         // Change if password is set
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -14,6 +14,7 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+   echo "DB connection failed: " . $e->getMessage();
+    exit();
 }
 ?>
