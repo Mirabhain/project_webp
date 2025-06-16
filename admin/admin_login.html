@@ -1,89 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Login | Hunger Finder</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #ffc9dd;
-      color: #4a2b2b;
-    }
-
-    h1 {
-      text-align: center;
-      color: #ff2e63;
-      margin-top: 30px;
-    }
-
-    .auth-form {
-      max-width: 350px;
-      margin: 40px auto;
-      padding: 30px;
-      background-color: #fff;
-      border: 2px solid #ff2e63;
-      border-radius: 20px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .auth-form input[type="text"],
-    .auth-form input[type="password"] {
-      width: 80%;
-      padding: 10px;
-      margin: 10px auto;
-      display: block;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      font-size: 1rem;
-    }
-
-    .auth-form button {
-      width: 50%;
-      padding: 10px;
-      margin: 20px auto 0;
-      display: block;
-      background-color: #ff2e63;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-
-    .auth-form button:hover {
-      background-color: #e40050;
-    }
-
-    p {
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    a {
-      color: #ff2e63;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
 </head>
 <body>
+  <h2>Admin Login</h2>
+  <form action="admin_login.php" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" name="username" required><br><br>
 
-  <h1>Login as Admin</h1>
-  <div class="auth-form">
-    <form action="admin_login.php" method="POST">
-      <input type="text" name="username" placeholder="Admin Username" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p><a href="../login.html">Login as User</a></p>
-  </div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" required><br><br>
 
+    <input type="submit" value="Login as Admin">
+  </form>
 </body>
 </html>
