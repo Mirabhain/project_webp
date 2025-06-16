@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up | Hunger Finder</title>
   <link rel="stylesheet" href="styles.css" />
+     
 </head>
 <body>
   <header>
+       <img src="kuih2.png" alt="kuih" width="200" style="float: right;display: block; margin: 10px auto 0 auto;">
     <h1>Hunger Finder</h1>
     <p>Please sign up to access the food guide</p>
+  
   </header>
 
   <form class="auth-form" action="signup.php" method="POST">
@@ -19,8 +22,23 @@
     <button type="submit">Sign Up</button>
   </form>
 
+  <p>Already have an account? <a href="login.html">Login here</a></p>
+
   <footer>
     <p>&copy; 2025 Hunger Finder. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Show messages if there's a status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+
+    if (status === 'exists') {
+      alert("Username already exists. Please try another.");
+    } else if (status === 'failed') {
+      alert("Signup failed. Please try again later.");
+    }
+  </script>
 </body>
 </html>
+
