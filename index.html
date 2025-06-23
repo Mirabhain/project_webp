@@ -2,14 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hunger Finder</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
   <style>
+    /* ----------------- Global Styles ----------------- */
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background-color: #ffc0cb;
+    }
+    header, .filters, #restaurantList, footer {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
     header {
       background-color: #fff066;
@@ -26,220 +32,429 @@
       color: #555;
     }
     #searchInput {
+      width: 100%;
       padding: 10px;
-      width: 80%;
-      max-width: 500px;
       border: 1px solid #ccc;
       border-radius: 20px;
+      box-sizing: border-box;
     }
     .filters {
-      background-color: #fff066;
-      padding: 10px;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 600px;
+      background: #fff066;
       border-radius: 15px;
       text-align: center;
+      margin: 20px auto;
+      padding: 10px;
     }
-    select, button {
+    .filters select,
+    .filters button {
       padding: 8px 12px;
       margin: 5px;
       border-radius: 10px;
       border: 1px solid #ccc;
-      font-family: 'Poppins', sans-serif;
+      font-family: inherit;
     }
-    button {
-      background-color: #ff3366;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    #restaurantList {
-      margin: 20px auto;
-      width: 90%;
-      max-width: 600px;
-    }
+    .filters button { background: #ff3366; color: #fff; cursor: pointer; border: none; }
     .restaurant-card {
-      background-color: #ccffcc;
-      padding: 15px;
+      background: #ccffcc;
       border-radius: 15px;
-      margin-bottom: 15px;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+      padding: 15px;
     }
-    .restaurant-card h3 {
-      color: #ff3366;
-      margin-top: 0;
-    }
-    .btn {
-      padding: 8px 12px;
-      background-color: #ff3366;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-      font-family: 'Poppins', sans-serif;
-    }
+    .restaurant-card h3 { margin:0 0 .5em; color:#ff3366; }
     footer {
       text-align: center;
       padding: 10px;
-      font-size: 14px;
       color: #555;
+      font-size: 14px;
+    }
+
+    /* -------------- Chat Toggle Button -------------- */
+    .chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #ff3366;
+      color: #fff;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1001;
+      transition: transform .2s;
+    }
+    .chat-toggle:hover { transform: scale(1.1); }
+
+    /* --------------- Chat Popup Box --------------- */
+    .chat-container {
+      position: fixed;
+      bottom: 90px; right: 20px;
+      width: 320px; height: 450px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+    }
+    .chat-container.open { display: flex; }
+
+    .chat-container header {
+      background: #ff5f96;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .chat-container .chats-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      font-size: 14px;
+      background: #f9f9f9;
+    }
+    .chat-container .prompt-form {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+    .chat-container .prompt-form input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-right: 5px;
+    }
+    .chat-container .prompt-form button {
+      padding: 8px 12px;
+      background: #ff5f96;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Suggestions */
+    .chat-container .suggestions {
+      list-style: none;
+      padding: 0 10px;
+      margin: 10px 0;
+    }
+    .chat-container .suggestions-item {
+      background: #eee;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .chat-container .suggestions-item:hover {
+      background: #ddd;
+    }
+
+    /* Chat messages styling */
+    .chat-message {
+      margin: 8px 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      max-width: 90%;
+      word-wrap: break-word;
+      font-size: 13px;
+    }
+    
+    .user-message {
+      background: #ff5f96;
+      color: white;
+      margin-left: auto;
+      text-align: right;
+    }
+    
+    .bot-message {
+      background: #e9ecef;
+      color: #333;
+      margin-right: auto;
+    }
+    
+    .typing-message {
+      background: #e9ecef;
+      color: #666;
+      font-style: italic;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
+
+  <!-- Restaurant Search UI -->
   <header>
     <h1>Hunger Finder</h1>
     <p>UTM Campus Food Guide</p>
     <input type="text" id="searchInput" placeholder="Search for food or location...">
   </header>
 
-  <section class="filters">
+  <div class="filters">
     <select id="locationFilter">
       <option value="all">All Locations</option>
-      <option value="Arked Meranti">Arked Meranti</option>
-      <option value="Arked Angkasa">Arked Angkasa</option>
-      <option value="Arked Lestari">Arked Lestari</option>
+      <option>Arked Meranti</option>
+      <option>Arked Angkasa</option>
+      <option>Arked Lestari</option>
+      <option>Arked Cengal</option>
     </select>
     <select id="cuisineFilter">
       <option value="all">All Cuisines</option>
-      <option value="Malay">Malay</option>
-      <option value="Western">Western</option>
+      <option>Malay</option>
+      <option>Western</option>
+      <option>Chinese</option>
+      <option>Dessert</option>
     </select>
     <button onclick="filterRestaurants()">Search</button>
-  </section>
+  </div>
 
   <section id="restaurantList"></section>
 
-  <a href="logout.php" class="btn" style="float: right; margin: 10px;">Logout</a>
-
   <footer>
+    <a href="logout.php" class="btn" style="float:right; margin-right:20px;">Logout</a>
     <p>&copy; 2025 Hunger Finder. All rights reserved.</p>
   </footer>
 
+  <!-- Chat Toggle Button -->
+  <button id="chat-toggle" class="chat-toggle">💬</button>
+
+  <!-- Chat Popup Container -->
+  <div id="chat-container" class="chat-container">
+    <header>🍽️ RadenBot</header>
+    <ul class="suggestions">
+      <li class="suggestions-item" onclick="askBot('Please find a restaurant at Arked Meranti.')">
+        Find restaurant at arked meranti
+      </li>
+      <li class="suggestions-item" onclick="askBot('List delicious foods for the night.')">
+        Senaraikan makanan yang sedap waktu malam
+      </li>
+      <li class="suggestions-item" onclick="askBot('Any Western restaurants at UTM?')">
+        Restoran Western di UTM?
+      </li>
+      <li class="suggestions-item" onclick="askBot('What are some good desserts?')">
+        Apa sahaja dessert yang best?
+      </li>
+    </ul>
+    <div id="chat-window" class="chats-container"></div>
+    <form id="chat-form" class="prompt-form">
+      <input id="user-input" type="text" placeholder="Tanya tentang makanan..." required>
+      <button type="submit">Hantar</button>
+    </form>
+  </div>
+
   <script>
+    // Sample restaurant data for demo
     const restaurants = [
       {
-        name: "Western Delight",
-        location: "Arked Angkasa",
+        name: "Warung Nasi Lemak Pak Ali",
+        location: "Arked Meranti",
+        cuisine: "Malay",
+        hours: "7:00 AM - 10:00 PM"
+      },
+      {
+        name: "Western Grill House",
+        location: "Arked Angkasa", 
         cuisine: "Western",
-        hours: "10:00 - 22:00"
+        hours: "11:00 AM - 11:00 PM"
       },
       {
-        name: "Nasi Melayu Best",
-        location: "Arked Meranti",
-        cuisine: "Malay",
-        hours: "09:00 - 20:00"
-      },
-      {
-        name: "Hitam Manis Wawa Kitchen",
-        location: "Arked Meranti",
-        cuisine: "Malay",
-        hours: "10:00 - 17:00"
-      },
-      {
-        name: "Ezz One Western",
-        location: "Arked Meranti",
-        cuisine: "Western",
-        hours: "10:00 - 18:00"
-      },
-      {
-        name: "Tealive Arked Meranti",
-        location: "Arked Meranti",
-        cuisine: "Drinks",
-        hours: "10:00 - 20:00"
-      },
-      {
-        name: "ZUS Coffee",
-        location: "Arked Meranti",
-        cuisine: "Drinks",
-        hours: "10:00 - 20:00"
-      },
-      {
-        name: "Sedap Kitchen",
-        location: "Arked Angkasa",
-        cuisine: "Malay",
-        hours: "10:00 - 17:00"
-      },
-      {
-        name: "Pak Atong",
-        location: "Arked Angkasa",
-        cuisine: "Malay",
-        hours: "10:00 - 17:00"
-      },
-      {
-        name: "Zen Corner",
-        location: "Arked Angkasa",
-        cuisine: "Drinks",
-        hours: "9:00 - 17:00"
-      },
-      {
-        name: "Belanga Cafe",
-        location: "Arked Cengal",
-        cuisine: "Western",
-        hours: "9:00 - 17:00"
-      },
-      {
-        name: "Letops Station",
-        location: "Arked Cengal",
-        cuisine: "Malay",
-        hours: "11:00 - 19:00"
-      },
-      {
-        name: "East Coast Kitchen",
+        name: "Dim Sum Corner",
         location: "Arked Lestari",
-        cuisine: "Malay",
-        hours: "9:00 - 17:00"
+        cuisine: "Chinese", 
+        hours: "9:00 AM - 9:00 PM"
       },
-     {
-        name: "Sy Cafe",
-        location: "Arked Lestari",
-        cuisine: "Malay",
-        hours: "8:00 - 20:00"
+      {
+        name: "Sweet Treats Cafe",
+        location: "Arked Cengal",
+        cuisine: "Dessert",
+        hours: "2:00 PM - 12:00 AM"
       },
-
-
-
-
-
-
-
-
-
-      // You can add more restaurants here!
+      {
+        name: "Roti Canai Mamak",
+        location: "Arked Meranti",
+        cuisine: "Malay",
+        hours: "6:00 AM - 2:00 AM"
+      }
     ];
 
+    // ---- Restaurant filtering logic ----
     function filterRestaurants() {
-      const searchInput = document.getElementById("searchInput").value.toLowerCase();
-      const locationFilter = document.getElementById("locationFilter").value;
-      const cuisineFilter = document.getElementById("cuisineFilter").value;
-
-      const list = document.getElementById("restaurantList");
-      list.innerHTML = ""; // Clear previous results
-
-      const filtered = restaurants.filter(r => {
-        const matchName = r.name.toLowerCase().includes(searchInput);
-        const matchLocation = locationFilter === "all" || r.location === locationFilter;
-        const matchCuisine = cuisineFilter === "all" || r.cuisine === cuisineFilter;
-        return matchName && matchLocation && matchCuisine;
-      });
-
-      if (filtered.length === 0) {
-        list.innerHTML = "<p>No matching restaurants found.</p>";
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const loc = document.getElementById('locationFilter').value;
+      const cui = document.getElementById('cuisineFilter').value;
+      const out = document.getElementById('restaurantList');
+      out.innerHTML = '';
+      const results = restaurants.filter(r => 
+        r.name.toLowerCase().includes(q) &&
+        (loc==='all' || r.location===loc) &&
+        (cui==='all' || r.cuisine===cui)
+      );
+      if (!results.length) {
+        out.innerHTML = '<p>No matching restaurants found.</p>';
       } else {
-        filtered.forEach(r => {
-          const card = `
-            <div class="restaurant-card">
-              <h3>${r.name}</h3>
-              <p><strong>Location:</strong> ${r.location}</p>
-              <p><strong>Cuisine:</strong> ${r.cuisine}</p>
-              <p><strong>Open Hours:</strong> ${r.hours}</p>
-            </div>
-          `;
-          list.innerHTML += card;
-        });
+        results.forEach(r => out.innerHTML += `
+          <div class="restaurant-card">
+            <h3>${r.name}</h3>
+            <p><strong>Location:</strong> ${r.location}</p>
+            <p><strong>Cuisine:</strong> ${r.cuisine}</p>
+            <p><strong>Hours:</strong> ${r.hours}</p>
+          </div>`);
       }
     }
+
+    // ---- Chat toggle behavior ----
+    const toggleBtn = document.getElementById('chat-toggle');
+    const chatBox   = document.getElementById('chat-container');
+    toggleBtn.addEventListener('click', () => {
+      chatBox.classList.toggle('open');
+    });
+
+    // ---- Chat functionality with smart responses ----
+    const chatForm   = document.getElementById('chat-form');
+    const chatWindow = document.getElementById('chat-window');
+    
+    // UTM-specific responses
+    const utmResponses = {
+      greetings: [
+        "Hello! I'm RadenBot, your UTM food assistant. How can I help you find great food today?",
+        "Hi there! I'm here to help you discover the best food options at UTM campus. What are you looking for?",
+        "Welcome to RadenBot! Let's find you some delicious food at UTM campus!"
+      ],
+      arked_meranti: [
+        "At Arked Meranti, you'll find Warung Nasi Lemak Pak Ali (7 AM - 10 PM) for authentic Malay food and Roti Canai Mamak (6 AM - 2 AM) which is open almost 24 hours! Both are very popular with UTM students.",
+        "Arked Meranti is great! There's Nasi Lemak Pak Ali famous for their spicy sambal, and the Mamak stall that stays open late night. Perfect for study sessions!"
+      ],
+      arked_angkasa: [
+        "Arked Angkasa has Western Grill House (11 AM - 11 PM) serving delicious chicken chop and fish & chips. It's a favorite spot for students craving Western food!",
+        "For Western food, head to Arked Angkasa. Western Grill House offers generous portions at student-friendly prices."
+      ],
+      arked_lestari: [
+        "Arked Lestari has Dim Sum Corner (9 AM - 9 PM) serving authentic Chinese food. Their har gow and siu mai are really delicious!",
+        "For Chinese food, try Dim Sum Corner at Arked Lestari. Their dumplings are fresh and prices are student-friendly."
+      ],
+      arked_cengal: [
+        "Arked Cengal has Sweet Treats Cafe (2 PM - 12 AM) perfect for desserts and late-night study sessions. They have a great variety of cakes and ice cream!",
+        "If you want to hang out in the evening or night while studying, Sweet Treats Cafe at Arked Cengal is perfect. Great desserts and strong WiFi!"
+      ],
+      malam: [
+        "For late night dining, I recommend Roti Canai Mamak at Arked Meranti (open until 2 AM) or Sweet Treats Cafe at Arked Cengal (until 12 AM). Perfect for late night study sessions!",
+        "Feeling hungry late at night? Visit the Mamak at Arked Meranti - they're open almost 24 hours! Or if you want dessert, Sweet Treats Cafe is open until midnight."
+      ],
+      western: [
+        "For Western food, go to Western Grill House at Arked Angkasa (11 AM - 11 PM). Their chicken chop and fish & chips are really good with generous portions!",
+        "Western Grill House at Arked Angkasa is the best choice for Western food at UTM. Reasonable prices and good quality."
+      ],
+      dessert: [
+        "Sweet Treats Cafe at Arked Cengal (2 PM - 12 AM) is the best place for desserts! They have a variety of cakes, ice cream and sweet drinks.",
+        "For desserts, you must visit Sweet Treats Cafe. Their cakes are made fresh daily and they have many ice cream flavors!"
+      ],
+      default: [
+        "I can help you find food at UTM! There are 4 main arkeds: Meranti, Angkasa, Lestari, and Cengal. What kind of food are you looking for?",
+        "Ask me about food at any UTM arked, or what cuisine you're craving. I know all the best places to eat!",
+        "I'm your UTM food expert! Feel free to ask about locations, opening hours, or what type of food you're looking for."
+      ]
+    };
+
+    function appendMsg(sender, text, isUser = false) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `chat-message ${isUser ? 'user-message' : 'bot-message'}`;
+      msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      chatWindow.appendChild(msgDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+      return msgDiv;
+    }
+
+    function askBot(text) {
+      document.getElementById('user-input').value = text;
+      chatForm.dispatchEvent(new Event('submit'));
+    }
+
+    function generateUTMResponse(message) {
+      const msg = message.toLowerCase();
+      
+      // Check for greetings
+      if (msg.includes('hello') || msg.includes('hi') || msg.includes('salam') || 
+          msg.includes('assalam') || msg.includes('hey')) {
+        return getRandomResponse('greetings');
+      }
+      
+      // Check for specific arkeds
+      if (msg.includes('meranti')) {
+        return getRandomResponse('arked_meranti');
+      }
+      if (msg.includes('angkasa')) {
+        return getRandomResponse('arked_angkasa');
+      }
+      if (msg.includes('lestari')) {
+        return getRandomResponse('arked_lestari');
+      }
+      if (msg.includes('cengal')) {
+        return getRandomResponse('arked_cengal');
+      }
+      
+      // Check for time-based queries
+      if (msg.includes('malam') || msg.includes('night') || msg.includes('lewat')) {
+        return getRandomResponse('malam');
+      }
+      
+      // Check for cuisine types
+      if (msg.includes('western')) {
+        return getRandomResponse('western');
+      }
+      if (msg.includes('dessert') || msg.includes('sweet') || msg.includes('cake')) {
+        return getRandomResponse('dessert');
+      }
+      
+      // Check for specific foods
+      if (msg.includes('nasi lemak')) {
+        return "The best Nasi Lemak at UTM is at Warung Nasi Lemak Pak Ali, Arked Meranti! Open from 7 AM - 10 PM. Their sambal is absolutely amazing!";
+      }
+      if (msg.includes('roti canai') || msg.includes('mamak')) {
+        return "The best Roti Canai is at the Mamak stall in Arked Meranti! Open 6 AM - 2 AM, perfect for breakfast and late night meals. Their curry is delicious!";
+      }
+      if (msg.includes('dim sum') || msg.includes('chinese')) {
+        return "For Chinese food, visit Dim Sum Corner at Arked Lestari (9 AM - 9 PM). Their har gow and siu mai are authentic and delicious!";
+      }
+      
+      // Default response
+      return getRandomResponse('default');
+    }
+
+    function getRandomResponse(category) {
+      const responseArray = utmResponses[category] || utmResponses.default;
+      return responseArray[Math.floor(Math.random() * responseArray.length)];
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('user-input').value.trim();
+      if (!msg) return;
+      
+      appendMsg('You', msg, true);
+      document.getElementById('user-input').value = '';
+      
+      const typingMsg = appendMsg('RadenBot', 'Typing...', false);
+      
+      // Simulate typing delay
+      await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 800));
+      
+      // Remove typing message
+      chatWindow.removeChild(typingMsg);
+      
+      // Generate response
+      const response = generateUTMResponse(msg);
+      appendMsg('RadenBot', response, false);
+    });
+
+    // Initialize with sample data
+    window.addEventListener('load', () => {
+      filterRestaurants();
+    });
   </script>
 </body>
 </html>
