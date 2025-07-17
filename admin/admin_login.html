@@ -2,67 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login | Hunger Finder</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+  <title >Login | Hunger Finder</title>
+<style>
+  body {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
 
-    .login-container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+  .login-container {
+    background: #fff8f0;
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 300px;
+  }
 
-    .login-container h1 {
-      margin-bottom: 20px;
-      color: #ff6f61;
-    }
+  .login-container h1 {
+    margin-bottom: 25px;
+    color: #d35400;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+  }
 
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 10px 0;
-      border: 2px solid #ff6f61;
-      border-radius: 10px;
-      outline: none;
-      transition: 0.3s;
-    }
+  .login-container input[type="text"],
+  .login-container input[type="password"] {
+    width: 100%;
+    padding: 12px 18px;
+    margin: 12px 0;
+    border: 2px solid #e67e22;
+    border-radius: 12px;
+    outline: none;
+    background: #fff;
+    transition: 0.3s;
+  }
 
-    .login-container input[type="text"]:focus,
-    .login-container input[type="password"]:focus {
-      border-color: #ff9a8b;
-    }
+  .login-container input[type="text"]:focus,
+  .login-container input[type="password"]:focus {
+    border-color: #d35400;
+    background: #fffaf0;
+  }
 
-    .login-container button {
-      background: linear-gradient(135deg, #ff9a8b 0%, #ff6f61 100%);
-      color: white;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+  .login-container button {
+    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
 
-    .login-container button:hover {
-      background: linear-gradient(135deg, #ff6f61 0%, #ff9a8b 100%);
-    }
+  .login-container button:hover {
+    background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+  }
 
-    .error-msg {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
+  .error-msg {
+    color: #e74c3c;
+    margin-top: 10px;
+  }
+
+  .login-container input::placeholder {
+    color: #b5651d;
+  }
+</style>
+
 </head>
 <body>
 
