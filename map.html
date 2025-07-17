@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hunger Finder Map</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1 style = "text-align:center">Searching for Food! </h1>
+<input id="pac-input" class="controls" type="text" placeholder="Search places nearby" />
+<div id="map"></div>
+
+<script>
+  let map;
+//Starts the map with a center location —  UTM
+
+
+  function initMap() {
+    const utm = { lat: 1.5584, lng: 103.6386 };
+
+    // Creates the map centered on UTM, with zoom 16 for close detail, and uses the regular road view.
+
+
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: utm,
+      zoom: 16,
+      mapTypeId: "roadmap"
+    });
+
+    // Allow searching
+    const input = document.getElementById("pac-input");
+    const searchBox = new google.maps.places.SearchBox(input);
+
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+
+    map.addListener("bounds_changed", () => {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    let markers = [];
+
+    // When user selects a place from the search dropdown, this fires. If nothing’s selected, just exits.
+
+
+    searchBox.addListener("places_changed", () => {
+      const places = searchBox.getPlaces();
+
+      if (places.length === 0) return;
+
+      // Clear old markers
+      markers.forEach((marker) => marker.setMap(null));
+      markers = [];
+
+      // Prepares to zoom/pan the map to fit the new results. Skips any result that doesn’t have location data.
+
+      map.fitBounds(bounds);
+    });
+  }
+</script>
+
+<script async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw78tkWJ9uOhTfFHWK9I7Vh2adM7CUn_w&libraries=places&callback=initMap">
+</script>
+
+<footer style="text-align: center; margin-top: 20px; padding: 10px; background: #f5f5f5; border-top: 1px solid #ccc;">
+  <h3>Daily Recommended Spot in UTM </h3>
+  <p>
+    <a href="https://maps.app.goo.gl/4Pqt36LWbEX15Qno8"target="_blank" style="text-decoration: none; color: #007BFF; font-size: 1.5rem">
+     Arked Meranti
+    </a>
+  </p>
+</footer>
+
+</body>
+</html>
