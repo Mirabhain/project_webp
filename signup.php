@@ -9,11 +9,9 @@ require 'auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"]);
-    // Hash password before storing
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    $password = $_POST["password"];  // Don't hash here!
 
     if (findUserByUsername($pdo, $username)) {
-        // Username exists → redirect with exists status
         header("Location: signup.html?status=exists");
         exit();
     }
@@ -23,11 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["username"] = $username;
         $_SESSION["role"] = "user";
 
-        // Redirect to login with success status
-        header("Location: login.html?status=success");
+        header("Location: login.php?status=success");
         exit();
     } else {
-        // Signup failed
         header("Location: signup.html?status=failed");
         exit();
     }
