@@ -1,4 +1,6 @@
-const restaurants = [
+
+
+/*const restaurants = [
     {
       name: "Nasi Kukus Meranti",
       location: "Arked Meranti",
@@ -76,4 +78,42 @@ const restaurants = [
 document.getElementById('locationFilter').addEventListener('change', filterRestaurants);
 document.getElementById('cuisineFilter').addEventListener('change', filterRestaurants);
 
-  
+ */
+const restaurants = [
+  { name: "Western Delight", location: "Arked Angkasa", cuisine: "Western", hours: "10:00 - 22:00" },
+  { name: "Nasi Melayu Best", location: "Arked Meranti", cuisine: "Malay", hours: "09:00 - 20:00" },
+  { name: "Mee Tarik KTF", location: "Arked Lestari", cuisine: "Chinese", hours: "10:00 - 22:00" },
+  { name: "ABC & Cendol Madu", location: "Arked Lestari", cuisine: "Dessert", hours: "12:00 - 18:00" },
+  // ... add more restaurants here
+];
+
+function filterRestaurants() {
+  const searchInput = document.getElementById("searchInput").value.toLowerCase();
+  const locationFilter = document.getElementById("locationFilter").value;
+  const cuisineFilter = document.getElementById("cuisineFilter").value;
+
+  const list = document.getElementById("restaurantList");
+  list.innerHTML = "";
+
+  const filtered = restaurants.filter(r => {
+    const matchName = r.name.toLowerCase().includes(searchInput);
+    const matchLocation = locationFilter === "all" || r.location === locationFilter;
+    const matchCuisine = cuisineFilter === "all" || r.cuisine === cuisineFilter;
+    return matchName && matchLocation && matchCuisine;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = "<p>No matching restaurants found.</p>";
+  } else {
+    filtered.forEach(r => {
+      list.innerHTML += `
+        <div class="restaurant-card">
+          <h3>${r.name}</h3>
+          <p><strong>Location:</strong> ${r.location}</p>
+          <p><strong>Cuisine:</strong> ${r.cuisine}</p>
+          <p><strong>Open Hours:</strong> ${r.hours}</p>
+        </div>
+      `;
+    });
+  }
+}
