@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<section id="commentSection">
+  <h2>Drop Your Comment</h2>
+  <form id="commentForm">
+    <label for="restaurantName">Restaurant Name:</label>
+    <input type="text" id="restaurantName" name="restaurantName" placeholder="e.g., Warung Nasi Lemak Pak Ali" required>
+
+    <label for="commentText">Your Comment:</label>
+    <textarea id="commentText" name="commentText" rows="4" placeholder="Write your feedback here..." required></textarea>
+
+    <button type="submit">Submit Comment</button>
+  </form>
+
+  <div id="commentsDisplay"></div>
+
+  
+</section>
+<div style="text-align: center; margin-top: 30px;">
+    <a href="index.html" style="
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff3366;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    ">
+      ⬅ Return to Home
+    </a>
+  </div>
+<script>
+  document.getElementById('commentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('restaurantName').value.trim();
+    const text = document.getElementById('commentText').value.trim();
+    if (!name || !text) return;
+
+    const commentContainer = document.createElement('div');
+    commentContainer.innerHTML = `<strong style="color:#ff3366;">${name}</strong><p>${text}</p>`;
+    document.getElementById('commentsDisplay').prepend(commentContainer);
+
+    document.getElementById('commentForm').reset();
+  });
+</script>
+</body>
+</html>
