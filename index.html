@@ -22,15 +22,75 @@
       padding: 20px;
       text-align: center;
     }
-    header h1 {
+      header h1 {
       margin: 0;
       color: #ff3366;
       font-weight: 900;
+      font-size: 2.8em;
+      text-shadow:
+        -2px -2px 0 #fff066,
+        2px -2px 0 #fff066,
+        -2px  2px 0 #fff066,
+        2px  2px 0 #fff066,
+        0    0   15px #ff8c66;
+      position: relative;
+      z-index: 2;
     }
+
     header p {
       margin: 5px 0 10px;
       color: #555;
     }
+
+ /* Navigation container */
+.main-nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+}
+
+
+/* Buttons */
+.comment, .logout {
+  background-color: #ff3366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+/* Optional hover effect */
+.comment:hover, .logout:hover {
+  background-color: #ffa5bb;
+}
+
+      /* CUTE BANANA BACKGROUND HEADER DECORATION */
+  .header::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 120px;
+    background-image: url('pisang-goreng.png');
+    background-repeat: repeat-x;
+    background-size: 100px;
+    animation: bananaRain 10s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  header {
+    position: relative;
+    z-index: 1;
+  }
+
     #searchInput {
       width: 100%;
       padding: 10px;
@@ -91,7 +151,7 @@
     .chat-container {
       position: fixed;
       bottom: 90px; right: 20px;
-      width: 320px; height: 450px;
+      width: 320px; height: 550px;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -118,7 +178,7 @@
     }
     .chat-container .prompt-form {
       display: flex;
-      padding: 10px;
+      padding: 5px;
       border-top: 1px solid #ddd;
     }
     .chat-container .prompt-form input {
@@ -149,10 +209,10 @@
       padding: 8px;
       margin-bottom: 6px;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 12px;
     }
     .chat-container .suggestions-item:hover {
-      background: #ddd;
+      background: #c0f0be;
     }
 
     /* Chat messages styling */
@@ -173,7 +233,7 @@
     }
     
     .bot-message {
-      background: #e9ecef;
+      background: #c0f0be;
       color: #333;
       margin-right: auto;
     }
@@ -184,16 +244,48 @@
       font-style: italic;
       margin-right: auto;
     }
+
+    /* Map Container */
+    #map-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .map-title {
+      text-align: center;
+      color: #ff3366;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
   <!-- Restaurant Search UI -->
   <header>
-    <h1>Hunger Finder</h1>
+    <div class="header">
+        <div class="kuih-grid">
+        <h1>Hunger Finder</h1>
+        </div>
+    </div>
+    
+    
     <p>UTM Campus Food Guide</p>
+    <!-- ******* -->
+
     <input type="text" id="searchInput" placeholder="Search for food or location...">
   </header>
+<nav class="main-nav">
+  <a href="comment.html" class="comment">💬 Give your review!</a>
+  <a href="logout.php" class="logout">🚪 Logout</a>
+</nav>
 
   <div class="filters">
     <select id="locationFilter">
@@ -215,17 +307,18 @@
 
   <section id="restaurantList"></section>
 
-  <footer>
-    <a href="logout.php" class="btn" style="float:right; margin-right:20px;">Logout</a>
-    <p>&copy; 2025 Hunger Finder. All rights reserved.</p>
-  </footer>
+  <!-- Google Maps Container -->
+  <div id="map-container">
+    <h3 class="map-title">UTM Campus Food Locations</h3>
+    <div id="map"></div>
+  </div>
 
   <!-- Chat Toggle Button -->
   <button id="chat-toggle" class="chat-toggle">💬</button>
 
   <!-- Chat Popup Container -->
   <div id="chat-container" class="chat-container">
-    <header>🍽️ RadenBot</header>
+    <header>🍽️ Hunger Finder Chatbot</header>
     <ul class="suggestions">
       <li class="suggestions-item" onclick="askBot('Please find a restaurant at Arked Meranti.')">
         Find restaurant at arked meranti
@@ -247,6 +340,9 @@
     </form>
   </div>
 
+  <footer>
+        <p>&copy; 2025 Hunger Finder. All rights reserved.</p>
+  </footer>
   <script>
     // Sample restaurant data for demo
     const restaurants = [
@@ -254,31 +350,49 @@
         name: "Warung Nasi Lemak Pak Ali",
         location: "Arked Meranti",
         cuisine: "Malay",
-        hours: "7:00 AM - 10:00 PM"
+        hours: "7:00 AM - 10:00 PM",
+        lat: 1.5596,
+        lng: 103.6343
       },
       {
         name: "Western Grill House",
         location: "Arked Angkasa", 
         cuisine: "Western",
-        hours: "11:00 AM - 11:00 PM"
+        hours: "11:00 AM - 11:00 PM",
+        lat: 1.5668,
+        lng: 103.6344
       },
       {
         name: "Dim Sum Corner",
         location: "Arked Lestari",
         cuisine: "Chinese", 
-        hours: "9:00 AM - 9:00 PM"
+        hours: "9:00 AM - 9:00 PM",
+        lat: 1.5594,
+        lng: 103.6485
       },
       {
         name: "Sweet Treats Cafe",
         location: "Arked Cengal",
         cuisine: "Dessert",
-        hours: "2:00 PM - 12:00 AM"
+        hours: "2:00 PM - 12:00 AM",
+        lat: 1.5618,
+        lng: 103.6322
       },
       {
         name: "Roti Canai Mamak",
-        location: "Arked Meranti",
+        location: "Arked Perdana",
         cuisine: "Malay",
-        hours: "6:00 AM - 2:00 AM"
+        hours: "6:00 AM - 2:00 AM",
+        lat: 1.5580,
+        lng: 103.6484
+      },
+      {
+        name: "SnF Pisang Goreng",
+        location: "Arked Angkasa",
+        cuisine: "Malay",
+        hours: "5:00 PM - 11:00 PM",
+        lat: 1.5668,
+        lng: 103.6344
       }
     ];
 
@@ -303,6 +417,7 @@
             <p><strong>Location:</strong> ${r.location}</p>
             <p><strong>Cuisine:</strong> ${r.cuisine}</p>
             <p><strong>Hours:</strong> ${r.hours}</p>
+            <p><a href="#" onclick="focusOnMap(${r.lat}, ${r.lng}, '${r.name}')">View on Map</a></p>
           </div>`);
       }
     }
@@ -321,9 +436,9 @@
     // UTM-specific responses
     const utmResponses = {
       greetings: [
-        "Hello! I'm RadenBot, your UTM food assistant. How can I help you find great food today?",
+        "Hello! I'm Hunger Finder Chatbot, your UTM food assistant. How can I help you find great food today?",
         "Hi there! I'm here to help you discover the best food options at UTM campus. What are you looking for?",
-        "Welcome to RadenBot! Let's find you some delicious food at UTM campus!"
+        "Welcome to Hunger Finder Chatbot! Let's find you some delicious food at UTM campus!"
       ],
       arked_meranti: [
         "At Arked Meranti, you'll find Warung Nasi Lemak Pak Ali (7 AM - 10 PM) for authentic Malay food and Roti Canai Mamak (6 AM - 2 AM) which is open almost 24 hours! Both are very popular with UTM students.",
@@ -342,8 +457,8 @@
         "If you want to hang out in the evening or night while studying, Sweet Treats Cafe at Arked Cengal is perfect. Great desserts and strong WiFi!"
       ],
       malam: [
-        "For late night dining, I recommend Roti Canai Mamak at Arked Meranti (open until 2 AM) or Sweet Treats Cafe at Arked Cengal (until 12 AM). Perfect for late night study sessions!",
-        "Feeling hungry late at night? Visit the Mamak at Arked Meranti - they're open almost 24 hours! Or if you want dessert, Sweet Treats Cafe is open until midnight."
+        "For late night dining, I recommend Roti Canai Mamak at Arked Perdana (open until 2 AM) or Sweet Treats Cafe at Arked Cengal (until 12 AM). Perfect for late night study sessions!",
+        "Feeling hungry late at night? Visit the Mamak at Arked Perdana - they're open almost 24 hours! Or if you want dessert, Sweet Treats Cafe is open until midnight."
       ],
       western: [
         "For Western food, go to Western Grill House at Arked Angkasa (11 AM - 11 PM). Their chicken chop and fish & chips are really good with generous portions!",
@@ -351,13 +466,20 @@
       ],
       dessert: [
         "Sweet Treats Cafe at Arked Cengal (2 PM - 12 AM) is the best place for desserts! They have a variety of cakes, ice cream and sweet drinks.",
-        "For desserts, you must visit Sweet Treats Cafe. Their cakes are made fresh daily and they have many ice cream flavors!"
+        "For desserts, you must visit Sweet Treats Cafe. Their cakes are made fresh daily and they have many ice cream flavors!",
+        "I can suggest you SnF Pisang Goreng. It is great and rich in sweet toppings. The price is also not bad!."
       ],
       default: [
         "I can help you find food at UTM! There are 4 main arkeds: Meranti, Angkasa, Lestari, and Cengal. What kind of food are you looking for?",
         "Ask me about food at any UTM arked, or what cuisine you're craving. I know all the best places to eat!",
         "I'm your UTM food expert! Feel free to ask about locations, opening hours, or what type of food you're looking for."
+        
+      ],
+      map: [
+        "If you want to search for places unmentioned in the list, you can search them on the map below! Happy exploring!",
+        "Hungry Finder also provides you the Google Maps for you to freely explore the restaurants that suits your fancy. Just scroll down and you will find it!"
       ]
+      
     };
 
     function appendMsg(sender, text, isUser = false) {
@@ -438,7 +560,7 @@
       appendMsg('You', msg, true);
       document.getElementById('user-input').value = '';
       
-      const typingMsg = appendMsg('RadenBot', 'Typing...', false);
+      const typingMsg = appendMsg('Hunger Finder Chatbot', 'Typing...', false);
       
       // Simulate typing delay
       await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 800));
@@ -448,13 +570,110 @@
       
       // Generate response
       const response = generateUTMResponse(msg);
-      appendMsg('RadenBot', response, false);
+      appendMsg('Hunger Finder Chatbot', response, false);
     });
 
     // Initialize with sample data
     window.addEventListener('load', () => {
       filterRestaurants();
+      initMap();
     });
+
+    // Google Maps Implementation
+  let map;
+  let markers = [];
+
+  function initMap() {
+    // UTM coordinates (Johor Bahru campus)
+    const utm = { lat: 1.5595, lng: 103.6392 };
+    
+    // Create the map centered at UTM with default POIs visible
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 16,
+      center: utm,
+      mapTypeId: "terrain",
+      styles: [
+        // You can customize other aspects while keeping POIs visible
+        {
+          "featureType": "administrative",
+          "elementType": "labels.text.fill",
+          "stylers": [{"color": "#444444"}]
+        },
+        {
+          "featureType": "landscape",
+          "elementType": "all",
+          "stylers": [{"color": "#f2f2f2"}]
+        },
+        {
+          "featureType": "poi",
+          "elementType": "all",
+          "stylers": [{"visibility": "on"}] // This ensures POIs are visible
+        },
+        {
+          "featureType": "road",
+          "elementType": "all",
+          "stylers": [{"saturation": -100},{"lightness": 45}]
+        },
+        {
+          "featureType": "road.highway",
+          "elementType": "all",
+          "stylers": [{"visibility": "simplified"}]
+        },
+        {
+          "featureType": "water",
+          "elementType": "all",
+          "stylers": [{"color": "#46bcec"},{"visibility": "on"}]
+        }
+      ]
+    });
+    
+    // Add UTM marker (red)
+    new google.maps.Marker({
+      position: utm,
+      map: map,
+      title: "Universiti Teknologi Malaysia",
+      icon: {
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+      }
+    });
+    
+    // Add markers for each restaurant (blue)
+    restaurants.forEach(restaurant => {
+      if (restaurant.lat && restaurant.lng) {
+        const marker = new google.maps.Marker({
+          position: { lat: restaurant.lat, lng: restaurant.lng },
+          map: map,
+          title: restaurant.name,
+          icon: {
+            url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+          }
+        });
+        
+        // Add info window for each marker
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="padding: 10px;">
+              <h3 style="margin: 0 0 5px; color: #ff3366;">${restaurant.name}</h3>
+              <p><strong>Location:</strong> ${restaurant.location}</p>
+              <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
+              <p><strong>Hours:</strong> ${restaurant.hours}</p>
+            </div>
+          `
+        });
+        
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+        
+        markers.push(marker);
+      }
+    });
+  }
+</script>
+  
+  <!-- Load Google Maps API -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw78tkWJ9uOhTfFHWK9I7Vh2adM7CUn_w&callback=initMap">
   </script>
 </body>
 </html>
