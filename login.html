@@ -10,6 +10,23 @@
   <header>
     <h1>Login to Hunger Finder</h1>
     <p>Access UTM food guide</p>
+
+    <img src="kuih2.png" alt="kuih" width="200" style="  position: absolute;
+  top: 5px;
+  left: 1px;
+  width: 100px;">
+
+   <img src="kuih3.png" alt="kuih2" width="200" style="  position: absolute;
+  top: 1px;
+  left: 600px;
+  width: 100px;">
+    
+       
+
+  <img src="durian.png" alt="kuih2" width="200" style="  position: absolute;top: 200px;left: 40px;width: 200px;">
+
+  <img src="durian.png" alt="kuih2" width="200" style="  position: absolute;top: 400px;left: 500px;width: 200px;">
+
   </header>
 
   <form class="auth-form" action="login.php" method="POST">
@@ -19,20 +36,25 @@
     <button type="submit">Login</button>
   </form>
 
-    <p style="text-align:center; margin-top:10px;">
-<a href="/project%20webp/admin/admin_login.html">Login as Admin</a>
+  <p style="text-align:center; margin-top:10px;">
+    <a href="/project%20webp/admin/admin_login.html">Login as Admin</a>
+  </p>
+
+  <p style="text-align:center; margin-top:5px;">
+    Don't have an account yet? <a href="signup.html">Sign up now</a>
   </p>
 
   <footer>
     <p>&copy; 2025 Hunger Finder. All rights reserved.</p>
   </footer>
 
-   <script>
+  <script>
     // Check for signup success status
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('status') === 'success') {
       alert("You have successfully signed up!");
     }
+    
   </script>
 </body>
 </html>
