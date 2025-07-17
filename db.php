@@ -1,4 +1,5 @@
 <?php
+
 $host = 'localhost';
 $db   = 'hunger_finder';
 $user = 'root';  // use your local DB username
@@ -17,4 +18,11 @@ try {
     echo "DB connection failed: " . $e->getMessage();
     exit();
 }
+
+
+$conn = new mysqli('localhost', 'root', '', 'hunger_finder');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 ?>
